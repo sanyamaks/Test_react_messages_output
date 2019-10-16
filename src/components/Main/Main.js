@@ -9,7 +9,7 @@ class Main extends PureComponent {
     } else {
       const SELF = this;
       let myHeaders = new Headers();
-      fetch("http://jsonplaceholder.typicode.com/posts", {
+      fetch("https://jsonplaceholder.typicode.com/posts", {
         method: "GET",
         headers: myHeaders,
         mode: "cors",
