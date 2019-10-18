@@ -11,7 +11,12 @@ class Header extends PureComponent {
             <div className="header__name">Messages</div>
             <div className="header__unread-messages">137</div>
           </div>
-          <FormSearch className="header__form-search" />
+          <FormSearch
+            className="header__form-search"
+            onChange={this.props.onChange}
+            onClick={this.props.onClick}
+            value={this.props.value}
+          />
         </div>
       </header>
     );

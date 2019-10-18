@@ -9,10 +9,20 @@ class FormSearch extends PureComponent {
     return (
       <form
         className={classNames("form-search", this.props.className)}
-        onSubmit=""
+        onSubmit={this.props.onClick}
       >
-        <InputField className="form-search__input" placeholder="Search" />
-        <button className="form-search__button">
+        <InputField
+          type="text"
+          className="form-search__input"
+          placeholder="Search"
+          onChange={this.props.onChange}
+          value={this.props.value}
+        />
+        <button
+          className="form-search__button"
+          onClick={this.props.onClick}
+          type="button"
+        >
           <img src={searchIcon} alt="Search" />
         </button>
       </form>
