@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import "./Header.css";
-import FormSearch from "../FormSearch/FormSearch";
+import FormSearch from "../SearchForm/SearchFrom";
 
 class Header extends PureComponent {
   render() {
@@ -13,9 +13,7 @@ class Header extends PureComponent {
           </div>
           <FormSearch
             className="header__form-search"
-            onChange={this.props.onChange}
-            onClick={this.props.onClick}
-            value={this.props.value}
+            search={this.props.search}
           />
         </div>
       </header>

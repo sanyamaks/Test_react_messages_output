@@ -9,64 +9,59 @@ class App extends PureComponent {
     this.state = {
       userData: [],
       filteredUserData: [],
-      searchValue: "",
       isFiltered: false
     };
-    this.updateData = this.updateData.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.filterArray = this.filterArray.bind(this);
-    this.filterArrayByName = this.filterArrayByName.bind(this);
+  }
+  componentDidMount() {
+    if (this.state.userData.length !== 0) {
+      return null;
+    } else {
+      const SELF = this;
+      let myHeaders = new Headers();
+      fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "GET",
+        headers: myHeaders,
+        mode: "cors",
+        cache: "default"
+      }).then(function(response) {
+        if (!response.ok) {
+          console.log("Не успешно");
+        } else {
+          response.json().then(function(data) {
+            SELF.updateData(data);
+          });
+        }
+      });
+    }
   }
 
-  updateData(data) {
+  updateData = data => {
     this.setState({ userData: data });
-  }
+  };
 
-  handleChange(event) {
-    this.setState({ searchValue: event.target.value });
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-    this.filterArray(this.state.searchValue, this.state.userData);
-  }
-
-  filterArray(searchValue, dataArray) {
-    let tempArray = dataArray;
+  search = searchValue => {
+    let dataArray = this.state.userData;
+    let tempArray = this.state.userData;
     if (searchValue === "") {
       this.setState({ isFiltered: false });
     } else {
       this.setState({ isFiltered: true });
       for (let i = 0; i < dataArray.length; i++) {
         if (
-          this.filterArrayByName(searchValue, dataArray, "body", i) !== true &&
-          this.filterArrayByName(searchValue, dataArray, "title", i) !== true
+          dataArray[i]["title"].includes(searchValue) !== true &&
+          dataArray[i]["body"].includes(searchValue) !== true
         ) {
           tempArray = tempArray.filter(el => el.id !== i + 1);
         }
       }
       this.setState({ filteredUserData: tempArray });
-      console.log(this.state.userData);
     }
-  }
-
-  filterArrayByName(searchValue, dataArray, name, i) {
-    for (let j = 0; j <= dataArray[i][name].length; j++) {
-      if (searchValue === dataArray[i][name].slice(j, j + searchValue.length)) {
-        return true;
-      }
-    }
-  }
+  };
 
   render() {
     return (
       <div className="App">
-        <Header
-          onChange={this.handleChange}
-          onClick={this.handleClick}
-          value={this.props.searchValue}
-        />
+        <Header search={this.search} />
         <Main
           userData={
             !this.state.isFiltered
