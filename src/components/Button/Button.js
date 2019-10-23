@@ -10,7 +10,7 @@ class Button extends PureComponent {
         {...this.props}
         className={classNames("button", this.props.className)}
       >
-        <img src={searchIcon} alt="Search" />
+        <img className={"button__icon"} src={searchIcon} alt="Search" />
       </button>
     );
   }

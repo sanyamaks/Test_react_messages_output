@@ -12,48 +12,40 @@ class App extends PureComponent {
       isFiltered: false
     };
   }
-  componentDidMount() {
-    if (this.state.userData.length !== 0) {
-      return null;
-    } else {
-      const SELF = this;
-      let myHeaders = new Headers();
-      fetch("https://jsonplaceholder.typicode.com/posts", {
-        method: "GET",
-        headers: myHeaders,
-        mode: "cors",
-        cache: "default"
-      }).then(function(response) {
-        if (!response.ok) {
-          console.log("Не успешно");
-        } else {
-          response.json().then(function(data) {
-            SELF.updateData(data);
-          });
-        }
-      });
-    }
-  }
 
   updateData = data => {
     this.setState({ userData: data });
   };
 
+  componentDidMount = () => {
+    if (this.state.userData.length !== 0) {
+      return null;
+    } else {
+      fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "GET"
+      }).then(response => {
+        if (!response.ok) {
+          console.log("Не успешно");
+        } else {
+          response.json().then(data => {
+            this.updateData(data);
+          });
+        }
+      });
+    }
+  };
+
   search = searchValue => {
     let dataArray = this.state.userData;
-    let tempArray = this.state.userData;
     if (searchValue === "") {
       this.setState({ isFiltered: false });
     } else {
       this.setState({ isFiltered: true });
-      for (let i = 0; i < dataArray.length; i++) {
-        if (
-          dataArray[i]["title"].includes(searchValue) !== true &&
-          dataArray[i]["body"].includes(searchValue) !== true
-        ) {
-          tempArray = tempArray.filter(el => el.id !== i + 1);
-        }
-      }
+      let tempArray = dataArray.filter(
+        el =>
+          el["title"].includes(searchValue) === true ||
+          el["body"].includes(searchValue) === true
+      );
       this.setState({ filteredUserData: tempArray });
     }
   };
