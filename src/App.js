@@ -1,67 +1,62 @@
 import React, { PureComponent } from "react";
 import "./App.css";
 import Header from "../src/components/Header/Header";
-import Main from "../src/components/Main/Main";
+import MessagesList from "./components/MessagesList/MessagesList";
+
+async function fetchMessages() {
+  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const json = await response.json().then(data => data);
+
+  if (response.ok) {
+    return json;
+  } else {
+    throw new Error("Произошла ошибка при загрузке списка сообщений");
+  }
+}
 
 class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      userData: [],
-      filteredUserData: [],
-      isFiltered: false
+      messages: [],
+      filteredMessages: []
     };
   }
 
-  updateData = data => {
-    this.setState({ userData: data });
-  };
+  componentDidMount() {
+    this.fetchMessages();
+  }
 
-  componentDidMount = () => {
-    if (this.state.userData.length !== 0) {
-      return null;
+  async fetchMessages() {
+    try {
+      const messages = await fetchMessages();
+      this.setState({ messages, filteredMessages: messages });
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  filterMessages = searchValue => {
+    const { messages } = this.state;
+    if (searchValue === "") {
+      this.setState({ filteredMessages: messages });
     } else {
-      fetch("https://jsonplaceholder.typicode.com/posts", {
-        method: "GET"
-      }).then(response => {
-        if (!response.ok) {
-          console.log("Не успешно");
-        } else {
-          response.json().then(data => {
-            this.updateData(data);
-          });
-        }
+      this.setState({
+        filteredMessages: messages.filter(
+          message =>
+            message.title.includes(searchValue) ||
+            message.body.includes(searchValue)
+        )
       });
     }
   };
 
-  search = searchValue => {
-    let dataArray = this.state.userData;
-    if (searchValue === "") {
-      this.setState({ isFiltered: false });
-    } else {
-      this.setState({ isFiltered: true });
-      let tempArray = dataArray.filter(
-        el =>
-          el["title"].includes(searchValue) === true ||
-          el["body"].includes(searchValue) === true
-      );
-      this.setState({ filteredUserData: tempArray });
-    }
-  };
-
   render() {
+    const { filteredMessages } = this.state;
     return (
       <div className="App">
-        <Header search={this.search} />
-        <Main
-          userData={
-            !this.state.isFiltered
-              ? this.state.userData
-              : this.state.filteredUserData
-          }
-          updateData={this.updateData}
-        />
+        <Header search={this.filterMessages} />
+        <MessagesList userData={filteredMessages} />
       </div>
     );
   }

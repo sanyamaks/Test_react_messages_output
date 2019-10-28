@@ -1,4 +1,4 @@
-.user-message {
+.message {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,11 +11,11 @@
   box-sizing: border-box;
 }
 
-.user-message:hover {
+.message:hover {
   background-color: hsl(240, 100%, 99%);
 }
 
-.user-message__user-avatar {
+.message__user-avatar {
   width: 72px;
   max-height: 72px;
   min-width: 72px;
@@ -23,19 +23,19 @@
   margin: 0 24px 0 0;
 }
 
-.user-message__info {
+.message__content {
   display: flex;
   flex-direction: column;
   height: auto;
 }
 
-.user-message__name-and-time {
+.message__title-and-time {
   display: flex;
   justify-content: space-between;
   height: 100%;
 }
 
-.user-message__user-name {
+.message__title {
   width: 72%;
   height: 100%;
   font-family: Muli, sans-serif;
@@ -47,11 +47,11 @@
   margin: 0 0 10px 0;
 }
 
-.user-message:hover .user-message__user-name {
+.message:hover .message__title {
   color: hsl(247, 100%, 68%);
 }
 
-.user-message__sending-time {
+.message__time {
   width: 28%;
   height: 100%;
   font-family: Muli, sans-serif;
@@ -61,11 +61,11 @@
   color: hsl(237, 16%, 72%);
 }
 
-.user-message:hover .user-message__sending-time {
+.message:hover .message__time {
   color: hsl(236, 52%, 16%);
 }
 
-.user-message__message-text {
+.message__body {
   width: 100%;
   height: 100%;
   text-align: justify;
@@ -76,17 +76,17 @@
   color: hsl(237, 10%, 62%);
 }
 
-.user-message:hover .user-message__message-text {
+.message:hover .message__body {
   color: hsl(236, 52%, 16%);
 }
 
 @media (max-width: 768px) {
-  .user-message {
+  .message {
     align-items: flex-start;
     padding: 16px 16px 16px 16px;
   }
 
-  .user-message__user-avatar {
+  .message__user-avatar {
     width: 40px;
     max-height: 40px;
     min-width: 40px;
@@ -94,17 +94,17 @@
     margin: 0 16px 0 0;
   }
 
-  .user-message__user-name {
+  .message__title {
     font-size: 14px;
     line-height: 1.14;
     margin: 0 0 4px 0;
   }
 
-  .user-message__sending-time {
+  .message__time {
     font-size: 11px;
   }
 
-  .user-message__message-text {
+  .message__body {
     font-size: 12px;
     line-height: 1.33;
   }

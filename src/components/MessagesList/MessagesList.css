@@ -1,4 +1,4 @@
-.main {
+.messages-list {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,18 +12,18 @@
   overflow-x: hidden;
 }
 
-.main__user-message {
+.messages-list__item {
   max-width: 80%;
   margin: 0 0 14px 0;
 }
 
 @media (max-width: 768px) {
-  .main {
+  .messages-list {
     padding: 16px 0 0 0;
     min-width: 320px;
   }
 
-  .main__user-message {
+  .messages-list__item {
     max-width: 90%;
     margin: 0 0 8px 0;
   }
